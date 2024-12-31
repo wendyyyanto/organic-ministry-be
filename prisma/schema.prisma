@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id           String         @id @default(cuid())
+  username     String
+  email        String         @unique
+  password     String
+  role         String         @default("user")
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @updatedAt
+  testimonials testimonials[]
+  schedules    schedules[]
+  teachers     teachers?
+}
+
+model testimonials {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  verse       String
+  user        users    @relation(fields: [created_by], references: [id])
+  created_by  String
+  updated_at  DateTime @updatedAt
+}
+
+model type_event {
+  id         Int         @id @default(autoincrement())
+  name       String
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+  schedules  schedules[]
+}
+
+model teachers {
+  id               String             @id @default(cuid())
+  name             String
+  user             users              @relation(fields: [user_id], references: [id])
+  user_id          String             @unique
+  image            String
+  description      String?
+  quotes           String?
+  verse            String?
+  verse_content    String?
+  created_at       DateTime           @default(now())
+  updated_at       DateTime           @updatedAt
+  schedule_details schedule_details[]
+}
+
+model schedules {
+  id               Int               @id @default(autoincrement())
+  name             String
+  event            type_event        @relation(fields: [event_id], references: [id])
+  event_id         Int               @unique
+  date             DateTime
+  start_date       DateTime
+  end_date         DateTime
+  is_teaching      Boolean
+  user             users             @relation(fields: [created_by], references: [id])
+  created_by       String            @unique
+  created_at       DateTime          @default(now())
+  updated_at       DateTime          @updatedAt
+  schedule_details schedule_details?
+}
+
+model schedule_details {
+  id              Int       @id @default(autoincrement())
+  location        String
+  teacher         teachers? @relation(fields: [teacher_id], references: [id])
+  teacher_id      String?   @unique
+  schedule        schedules @relation(fields: [schedule_id], references: [id])
+  schedule_id     Int       @unique
+  audio_source    String?
+  document_source String?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+}
