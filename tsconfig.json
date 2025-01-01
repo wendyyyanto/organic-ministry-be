@@ -1,14 +1,24 @@
 {
     "compilerOptions": {
       "target": "ES6",
+      "sourceMap": true,
       "module": "commonjs",
       "outDir": "./dist",
-      "rootDir": "./",
+      "rootDir": ".",
       "strict": true,
       "esModuleInterop": true,
       "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true
+      "forceConsistentCasingInFileNames": true,
+      "baseUrl": ".",
+      "paths": {
+        "@routes/*": ["src/routes/*"],
+        "@middlewares/*": ["src/middlewares/*"],
+        "@services/*": ["src/services/*"],
+        "@utils/*": ["src/common/utils/*"],
+        "@base/*": ["src/common/base/*"],
+        "@enums/*": ["src/common/enums/*"],
+      },
     },
     "include": ["./app.ts", "./src/**/*"],
-    "exclude": ["node_modules", "**/*.spec.ts"]
+    "exclude": ["node_modules", "**/*.spec.ts", "dist"],
   }
