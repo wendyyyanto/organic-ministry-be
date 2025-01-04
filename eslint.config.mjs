@@ -1,14 +1,21 @@
 // @ts-check
 
-import eslint from "@eslint/js";
-import tseslint, { parser } from "typescript-eslint";
+import { parser } from "typescript-eslint";
 
 export default {
-	parser: parser,
-	extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
-	plugins: ["@typescript-eslint"],
-	rules: {
-		"no-unused-vars": "off",
-		"@typescript-eslint/no-unused-vars": "error"
-	}
+    parser: parser,
+    parserOptions: {
+        ecmaVersion: "latest",
+    },
+    extends: [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "eslint-config-prettier",
+    ],
+    plugins: ["@typescript-eslint", "eslint-plugin-prettier"],
+    rules: {
+        "no-unused-vars": "warn",
+        "prettier/prettier": "error",
+        "@typescript-eslint/no-unused-vars": "error",
+    },
 };
