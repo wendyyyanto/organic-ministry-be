@@ -1,5 +1,0 @@
-### Description
-
-### Acceptence Criteria
-
-### References
