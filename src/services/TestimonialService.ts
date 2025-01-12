@@ -1,13 +1,27 @@
 import DatabaseClient from "@base/DatabaseClientBase";
+import InsertTestimonialDto from "src/dtos/InsertTestimonialDto";
 
 class TestimonialService extends DatabaseClient {
-	constructor() {
-		super();
-	}
+    private testimonialRepository;
 
-	async getTestimonials() {
-		return await this.databaseClient.teachers.findFirst();
-	}
+    constructor() {
+        super();
+
+        this.testimonialRepository = this.databaseClient.testimonials;
+    }
+
+    async insertTestimonial(payload: InsertTestimonialDto) {
+        const testimonial = await this.testimonialRepository.create({
+            data: {
+                content: payload.content,
+                created_by: payload.createdBy,
+                name: payload.name,
+                verse: payload.verse,
+            },
+        });
+
+        return testimonial;
+    }
 }
 
 export default TestimonialService;
