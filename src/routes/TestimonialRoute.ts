@@ -12,7 +12,7 @@ class TestimonialRoute extends RouterBase {
     }
 
     public setRoutes() {
-        this.router.post("/testimonial", (req, res, next): any => {
+        this.httpPost("/testimonial", (req, res, next): any => {
             const result = this.testimonialService.insertTestimonial({
                 content: req.body["content"],
                 createdBy: req.body["created_by"],
