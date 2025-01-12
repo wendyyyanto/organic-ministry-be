@@ -12,8 +12,17 @@ class TestimonialRoute extends RouterBase {
     }
 
     public setRoutes() {
-        this.httpPost("/testimonial", (req, res, next): any => {
-            const result = this.testimonialService.insertTestimonial({
+        this.httpGet("/testimonials", async (req, res, next): Promise<any> => {
+            const result = await this.testimonialService.getTestimonials({
+                page: parseInt(req.query["page"] as string),
+                limit: parseInt(req.query["limit"] as string),
+            });
+
+            return res.json(result);
+        });
+
+        this.httpPost("/testimonial", async (req, res, next): Promise<any> => {
+            const result = await this.testimonialService.insertTestimonial({
                 content: req.body["content"],
                 createdBy: req.body["created_by"],
                 name: req.body["name"],

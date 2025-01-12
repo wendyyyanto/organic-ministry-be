@@ -20,7 +20,11 @@ class UserService extends DatabaseClient {
             },
         });
 
-        return user;
+        return this.responseBase.success({
+            statusCode: 201,
+            message: "Created!",
+            data: user,
+        });
     }
 }
 
