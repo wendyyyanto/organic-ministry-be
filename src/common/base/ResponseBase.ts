@@ -4,6 +4,11 @@ type successResponseArgs = {
     data: any;
 };
 
+type errorResponseArgs = {
+    statusCode: number;
+    message: string;
+};
+
 class ResponseBase {
     constructor() {}
 
@@ -12,6 +17,14 @@ class ResponseBase {
             status: args.statusCode,
             message: args.message,
             data: args.data,
+        };
+    }
+
+    public error(args: errorResponseArgs) {
+        return {
+            status: args.statusCode,
+            message: args.message,
+            data: {},
         };
     }
 }
