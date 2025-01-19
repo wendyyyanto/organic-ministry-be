@@ -45,10 +45,9 @@ model type_event {
 }
 
 model teachers {
-  id               String             @id @default(uuid())
+  user_id          String             @unique
   name             String
   user             users              @relation(fields: [user_id], references: [id])
-  user_id          String             @unique
   image            String
   description      String?
   quotes           String?
@@ -78,7 +77,7 @@ model schedules {
 model schedule_details {
   id              Int       @id @default(autoincrement())
   location        String
-  teacher         teachers? @relation(fields: [teacher_id], references: [id])
+  teacher         teachers? @relation(fields: [teacher_id], references: [user_id])
   teacher_id      String?   @unique
   schedule        schedules @relation(fields: [schedule_id], references: [id])
   schedule_id     Int       @unique
