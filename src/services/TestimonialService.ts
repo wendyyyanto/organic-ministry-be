@@ -11,14 +11,16 @@ class TestimonialService extends DatabaseClient {
     }
 
     async insertTestimonial(payload: InsertTestimonialDto) {
-        const testimonial = await this.testimonialRepository.create({
-            data: {
-                content: payload.content,
-                created_by: payload.createdBy,
-                name: payload.name,
-                verse: payload.verse,
-            },
-        });
+        const testimonial = await this.databaseClient.$transaction([
+            this.testimonialRepository.create({
+                data: {
+                    content: payload.content,
+                    created_by: payload.createdBy,
+                    name: payload.name,
+                    verse: payload.verse,
+                },
+            }),
+        ]);
 
         return testimonial;
     }
