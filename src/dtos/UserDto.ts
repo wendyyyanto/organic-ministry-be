@@ -5,4 +5,8 @@ interface InsertUserDto {
     role: string;
 }
 
-export default InsertUserDto;
+interface GetUserProfileDto {
+    userId: string;
+}
+
+export { InsertUserDto, GetUserProfileDto };

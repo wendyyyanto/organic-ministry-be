@@ -33,6 +33,7 @@ model testimonials {
   verse      String
   user       users    @relation(fields: [created_by], references: [id])
   created_by String
+  created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
 
@@ -64,7 +65,6 @@ model schedules {
   name             String
   event            type_event        @relation(fields: [event_id], references: [id])
   event_id         Int               @unique
-  date             DateTime
   start_date       DateTime
   end_date         DateTime
   is_teaching      Boolean
@@ -84,6 +84,7 @@ model schedule_details {
   schedule_id     Int       @unique
   audio_source    String?
   document_source String?
+  zoom_link       String?
   created_at      DateTime  @default(now())
   updated_at      DateTime  @updatedAt
 }

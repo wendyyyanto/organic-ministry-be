@@ -20,7 +20,27 @@ class TestimonialService extends DatabaseClient {
             },
         });
 
-        return testimonial;
+        return this.responseBase.success({
+            statusCode: 201,
+            message: "Created!",
+            data: testimonial,
+        });
+    }
+
+    async getTestimonials(args: { page: number; limit: number }) {
+        const testimonials = await this.testimonialRepository.findMany({
+            take: args.limit,
+            skip: args.page * args.limit - args.limit,
+            orderBy: {
+                created_at: "desc",
+            },
+        });
+
+        return this.responseBase.success({
+            statusCode: 200,
+            message: "Success!",
+            data: testimonials,
+        });
     }
 }
 
