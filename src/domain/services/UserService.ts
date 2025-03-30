@@ -30,10 +30,10 @@ class UserService extends DatabaseClient {
     async getUserProfile(payload: GetUserProfileDto) {
         const user = await this.userRepository.findFirst({
             where: {
-                id: payload.userId,
+                user_id: payload.userId,
             },
             select: {
-                id: true,
+                user_id: true,
                 username: true,
                 email: true,
                 role: true,

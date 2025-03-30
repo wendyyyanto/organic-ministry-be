@@ -1,7 +1,7 @@
-import RouterBase from "@base/RouterBase";
+import Controller from "@base/ControllerBase";
 import TestimonialService from "@services/TestimonialService";
 
-class TestimonialRoute extends RouterBase {
+class TestimonialController extends Controller {
     private testimonialService;
 
     constructor() {
@@ -27,6 +27,7 @@ class TestimonialRoute extends RouterBase {
                 createdBy: req.body["created_by"],
                 name: req.body["name"],
                 verse: req.body["verse"],
+                userId: req.body["user_id"],
             });
 
             return res.json(result);
@@ -34,4 +35,4 @@ class TestimonialRoute extends RouterBase {
     }
 }
 
-export default TestimonialRoute;
+export default TestimonialController;

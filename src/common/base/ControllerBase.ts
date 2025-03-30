@@ -1,6 +1,6 @@
 import express, { RequestHandler, Router } from "express";
 
-class RouterBase {
+class Controller {
     public router: Router;
 
     constructor() {
@@ -14,6 +14,10 @@ class RouterBase {
     httpPost(path: string, callback: RequestHandler) {
         return this.router.post(path, callback);
     }
+
+    httpPut(path: string, callback: RequestHandler) {
+        return this.router.put(path, callback);
+    }
 }
 
-export default RouterBase;
+export default Controller;

@@ -1,5 +1,12 @@
 import DatabaseClient from "@base/DatabaseClientBase";
-import InsertTestimonialDto from "src/dtos/InsertTestimonialDto";
+
+interface IInsertTestimonialArgs {
+    name: string;
+    content: string;
+    verse: string;
+    createdBy: string;
+    userId: string;
+}
 
 class TestimonialService extends DatabaseClient {
     private testimonialRepository;
@@ -10,13 +17,14 @@ class TestimonialService extends DatabaseClient {
         this.testimonialRepository = this.databaseClient.testimonials;
     }
 
-    async insertTestimonial(payload: InsertTestimonialDto) {
+    async insertTestimonial(payload: IInsertTestimonialArgs) {
         const testimonial = await this.testimonialRepository.create({
             data: {
                 content: payload.content,
                 created_by: payload.createdBy,
                 name: payload.name,
                 verse: payload.verse,
+                user_id: payload.userId,
             },
         });
 

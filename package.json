@@ -36,11 +36,14 @@
     "typescript-eslint": "^8.18.2"
   },
   "_moduleAliases": {
-    "@routes": "./src/routes",
+    "@controllers": "./src/api/controllers",
     "@middlewares": "./src/middlewares",
-    "@services": "./src/services",
+    "@services": "./src/domain/services",
     "@utils": "./src/common/utils",
     "@base": "./src/common/base",
-    "@enums": "./src/common/enums"
+    "@enums": "./src/common/enums",
+    "@dtos": "./src/dtos",
+    "@models": "./src/domain/models",
+    "@repositories": "./src/domain/repositories"
   }
 }

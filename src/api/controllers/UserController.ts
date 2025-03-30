@@ -1,8 +1,8 @@
-import RouterBase from "@base/RouterBase";
+import Controller from "@base/ControllerBase";
 import UserService from "@services/UserService";
 import { Request, Response } from "express";
 
-class UserRoute extends RouterBase {
+class UserController extends Controller {
     private userService;
 
     constructor() {
@@ -37,4 +37,4 @@ class UserRoute extends RouterBase {
     }
 }
 
-export default UserRoute;
+export default UserController;
