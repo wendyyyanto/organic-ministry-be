@@ -11,26 +11,22 @@ class TestimonialController extends Controller {
         this.testimonialService = new TestimonialService();
     }
 
-    public setRoutes() {
+    setRoutes() {
         this.httpGet("/testimonials", async (req, res, next): Promise<any> => {
-            const result = await this.testimonialService.getTestimonials({
+            return await this.testimonialService.getTestimonials({
                 page: parseInt(req.query["page"] as string),
                 limit: parseInt(req.query["limit"] as string),
             });
-
-            return res.json(result);
         });
 
         this.httpPost("/testimonial", async (req, res, next): Promise<any> => {
-            const result = await this.testimonialService.insertTestimonial({
+            return await this.testimonialService.insertTestimonial({
                 content: req.body["content"],
                 createdBy: req.body["created_by"],
                 name: req.body["name"],
                 verse: req.body["verse"],
                 userId: req.body["user_id"],
             });
-
-            return res.json(result);
         });
     }
 }

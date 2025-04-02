@@ -1,4 +1,6 @@
 import DatabaseClientBase from "@base/DatabaseClientBase";
+import ResponseBase from "@base/ResponseBase";
+import { PrismaClient } from "@prisma/client";
 
 interface IInsertScheduleArgs {
     eventTitle: string;
@@ -15,12 +17,14 @@ interface IInsertScheduleArgs {
 }
 
 class ScheduleService extends DatabaseClientBase {
-    private scheduleRepository;
-    private scheduleDetailRepository;
+    private scheduleRepository: PrismaClient["schedules"];
+    private scheduleDetailRepository: PrismaClient["schedule_details"];
+    private responseBase: ResponseBase;
 
     constructor() {
         super();
 
+        this.responseBase = new ResponseBase();
         this.scheduleRepository = this.databaseClient.schedules;
         this.scheduleDetailRepository = this.databaseClient.schedule_details;
     }
@@ -37,20 +41,6 @@ class ScheduleService extends DatabaseClientBase {
             },
         });
 
-        /*
-        {
-            schedule_id: 3,
-            event_title: 'test event',
-            event_type_id: 1,
-            start_date: 2025-02-02T00:00:00.000Z,
-            end_date: 2025-02-02T00:00:00.000Z,
-            is_teaching: false,
-            created_by: 'f432874d-3314-498a-a3ed-5c63ddf39b26',
-            created_at: 2025-03-30T06:16:31.844Z,
-            updated_at: 2025-03-30T06:16:31.844Z
-        }
-        */
-
         const scheduleDetail = await this.scheduleDetailRepository.create({
             data: {
                 schedule_id: schedule.schedule_id,
@@ -58,10 +48,15 @@ class ScheduleService extends DatabaseClientBase {
             },
         });
 
+        const data = {
+            ...schedule,
+            ...scheduleDetail,
+        };
+
         return this.responseBase.success({
             statusCode: 200,
             message: "Schedule created successfully",
-            data: scheduleDetail,
+            data: data,
         });
     }
 }

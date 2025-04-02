@@ -1,59 +1,62 @@
 import DatabaseClient from "@base/DatabaseClientBase";
 import { InsertUserDto, GetUserProfileDto } from "src/dtos/UserDto";
+import ResponseBase from "@base/ResponseBase";
+import { PrismaClient } from "@prisma/client";
 
 class UserService extends DatabaseClient {
-    private userRepository;
+    private userRepository: PrismaClient["users"];
+    private responseBase: ResponseBase;
 
     constructor() {
         super();
 
         this.userRepository = this.databaseClient.users;
+        this.responseBase = new ResponseBase();
     }
 
     async insertUser(payload: InsertUserDto) {
-        const user = await this.userRepository.create({
-            data: {
-                username: payload.username,
-                email: payload.email,
-                password: payload.password,
-                role: payload.role,
-            },
-        });
+        try {
+            const user = await this.userRepository.create({
+                data: {
+                    username: payload.username,
+                    email: payload.email,
+                    password: payload.password,
+                    role: payload.role,
+                },
+            });
 
-        return this.responseBase.success({
-            statusCode: 201,
-            message: "Created!",
-            data: user,
-        });
+            return this.responseBase.success({
+                statusCode: 201,
+                message: "Created!",
+                data: user,
+            });
+        } catch (error) {
+            return this.responseBase.error({
+                statusCode: 500,
+                message: "Internal server error!",
+            });
+        }
     }
 
     async getUserProfile(payload: GetUserProfileDto) {
-        const user = await this.userRepository.findFirst({
-            where: {
-                user_id: payload.userId,
-            },
-            select: {
-                user_id: true,
-                username: true,
-                email: true,
-                role: true,
-                created_at: true,
-                updated_at: true,
-            },
-        });
+        try {
+            const user = await this.userRepository.findFirst({
+                where: {
+                    user_id: payload.userId,
+                },
+            });
 
-        if (!user) {
+            return this.responseBase.success({
+                statusCode: 200,
+                message: "Success!",
+                data: user,
+            });
+        } catch (error) {
             return this.responseBase.error({
-                statusCode: 404,
-                message: "User not found!",
+                statusCode: 500,
+                message: "Internal server error!",
             });
         }
-
-        return this.responseBase.success({
-            statusCode: 200,
-            message: "Success!",
-            data: user,
-        });
     }
 }
 

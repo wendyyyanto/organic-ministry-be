@@ -1,23 +1,35 @@
-import express, { RequestHandler, Router } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 
-class Controller {
+abstract class Controller {
     public router: Router;
 
     constructor() {
-        this.router = express.Router();
+        this.router = Router();
     }
 
-    httpGet(path: string, callback: RequestHandler) {
-        return this.router.get(path, callback);
+    protected httpGet(
+        path: string,
+        handler: (
+            req: Request,
+            res: Response,
+            next: NextFunction,
+        ) => Promise<any>,
+    ) {
+        this.router.get(path, handler);
     }
 
-    httpPost(path: string, callback: RequestHandler) {
-        return this.router.post(path, callback);
+    protected httpPost(
+        path: string,
+        handler: (
+            req: Request,
+            res: Response,
+            next: NextFunction,
+        ) => Promise<any>,
+    ) {
+        this.router.post(path, handler);
     }
 
-    httpPut(path: string, callback: RequestHandler) {
-        return this.router.put(path, callback);
-    }
+    abstract setRoutes(): void;
 }
 
 export default Controller;

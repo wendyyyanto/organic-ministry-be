@@ -11,9 +11,9 @@ class ScheduleController extends Controller {
         this.scheduleService = new ScheduleService();
     }
 
-    public setRoutes() {
+    setRoutes() {
         this.httpPost("/schedule", async (req, res, next): Promise<any> => {
-            return await this.scheduleService.insertSchedule({
+            const result = await this.scheduleService.insertSchedule({
                 eventTitle: req.body["event_title"],
                 eventTypeId: req.body["event_type_id"],
                 startDate: req.body["start_date"],
@@ -26,6 +26,8 @@ class ScheduleController extends Controller {
                 documentSource: req.body["document_source"],
                 zoomLink: req.body["zoom_link"],
             });
+
+            return res.json(result);
         });
     }
 }

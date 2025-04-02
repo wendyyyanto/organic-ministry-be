@@ -20,6 +20,14 @@ const scheduleController = new ScheduleController();
 // Middlewares
 server.use(cors);
 server.use(bodyParser.json());
+server.use((req, res, next) => {
+    res.setTimeout(5000, () => {
+        return res.status(408).json({
+            message: "Request timeout!",
+        });
+    });
+    next();
+});
 
 server.use("/v1", [
     testimonialController.router,

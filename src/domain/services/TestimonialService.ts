@@ -1,4 +1,6 @@
 import DatabaseClient from "@base/DatabaseClientBase";
+import ResponseBase from "@base/ResponseBase";
+import { PrismaClient } from "@prisma/client";
 
 interface IInsertTestimonialArgs {
     name: string;
@@ -9,11 +11,13 @@ interface IInsertTestimonialArgs {
 }
 
 class TestimonialService extends DatabaseClient {
-    private testimonialRepository;
+    private testimonialRepository: PrismaClient["testimonials"];
+    private responseBase: ResponseBase;
 
     constructor() {
         super();
 
+        this.responseBase = new ResponseBase();
         this.testimonialRepository = this.databaseClient.testimonials;
     }
 
